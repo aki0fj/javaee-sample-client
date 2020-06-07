@@ -24,7 +24,7 @@
                 </p:column>
                 <p:column headerText="Date">
                     <h:outputText value="#{emp.startDate}">
-                        <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                        <f:convertDateTime type="localDate" pattern="yyyy/MM/dd"/>
                     </h:outputText>
                 </p:column>
             </p:dataTable>
@@ -73,7 +73,7 @@
                     <p:outputLabel for="startDate" value="Start Date: "/>
                     <p:inputText id="startDate"  
                                  value="#{acmeEmployeeController.selected.startDate}">
-                        <f:convertDateTime type="date" pattern="yyyy/MM/dd"/>
+                        <f:convertDateTime type="localDate" pattern="yyyy/MM/dd"/>
                     </p:inputText>
 
 

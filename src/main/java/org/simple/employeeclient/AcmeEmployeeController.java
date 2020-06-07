@@ -1,27 +1,15 @@
 package org.simple.employeeclient;
 
 import org.simple.employeeclient.util.JsfUtil;
-import org.simple.employeeclient.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.concurrent.CompletionStage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -34,7 +22,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.simple.employeeclient.observer.NewHire;
@@ -60,6 +47,7 @@ public class AcmeEmployeeController implements Serializable {
     
     private String empJson;
     private String serviceUrl = "http://localhost:8096/EmployeeService-1.0/rest/acmeemployee";
+    //private Date startDate;
 
     public AcmeEmployeeController() {
     }
@@ -151,22 +139,21 @@ public class AcmeEmployeeController implements Serializable {
         this.selected = selected;
     }
     
-    
     public void create(){
         System.out.println("Submitting..." + selected.getLastName());
         WebTarget resource = ClientBuilder.newClient()
-                .target("http://localhost:8096/EmployeeService-1.0")
-                .path("rest/acmeemployee");
+                .target(serviceUrl);
+//                .path("rest/acmeemployee");
  
-            //String empStart = selected.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
             Form form = new Form();
             form.param("firstName", selected.getFirstName());
             form.param("lastName",selected.getLastName());
             form.param("age", selected.getAge().toString());
-            form.param("startDate", selected.getStartDate().toString());
-          
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
+            String startDate = selected.getStartDate().format(formatter);
+            form.param("startDate", startDate);
+            System.out.println("startDate=" + startDate);
             Invocation.Builder invocationBuilder = resource.request(MediaType.APPLICATION_XML);
-              //      .cookie(HttpHeaders.AUTHORIZATION, authenticationController.getSessionToken());
             Response response = invocationBuilder.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Response.class);
             if (response.getStatus() == Response.Status.CREATED.getStatusCode() || response.getStatus() == Response.Status.OK.getStatusCode()) {
                 // send success message
