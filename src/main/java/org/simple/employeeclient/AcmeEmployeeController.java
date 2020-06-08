@@ -13,8 +13,6 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -29,9 +27,6 @@ import org.simple.employeeclient.observer.NewHire;
 @Named("acmeEmployeeController")
 @SessionScoped
 public class AcmeEmployeeController implements Serializable {
-    
-    @PersistenceContext(unitName = "EmployeeClient_1.0PU")
-    private EntityManager em;
     
     @Inject
     @NewHire
