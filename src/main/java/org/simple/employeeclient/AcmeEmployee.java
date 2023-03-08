@@ -7,10 +7,10 @@ package org.simple.employeeclient;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.json.bind.annotation.JsonbDateFormat;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 
-//import javax.xml.bind.annotation.XmlRootElement;
-//import javax.json.bind.annotation.JsonbDateFormat;
+//import jakarta.xml.bind.annotation.XmlRootElement;
+//import jakarta.json.bind.annotation.JsonbDateFormat;
 
 /**
  *

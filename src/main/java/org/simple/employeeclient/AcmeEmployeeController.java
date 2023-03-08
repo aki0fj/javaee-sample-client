@@ -6,27 +6,32 @@ import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.simple.employeeclient.observer.NewHire;
 
 @Named("acmeEmployeeController")
 @SessionScoped
 public class AcmeEmployeeController implements Serializable {
+    
+    @PersistenceContext(unitName = "EmployeeClient_1.0PU")
+    private EntityManager em;
     
     @Inject
     @NewHire
@@ -77,6 +82,7 @@ public class AcmeEmployeeController implements Serializable {
                 );
     }
     
+
     public void loadCustomersToJSON(){
         // Implement using JSON-B
         Jsonb jsonb = JsonbBuilder.create();
